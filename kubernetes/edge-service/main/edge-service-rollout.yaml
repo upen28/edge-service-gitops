@@ -18,8 +18,13 @@ spec:
           # This ingress will be cloned with a new name, in order to achieve NGINX traffic splitting.
           stableIngress: polar-bookshop-ingress
       steps:
-        - setWeight: 50
+        - setWeight: 20
         - pause: {}
+        - setWeight: 40
+        - pause: { duration: 60s }
+        - setWeight: 60
+        - pause: { duration: 60s }
+        - setWeight: 80
   selector:
     matchLabels:
       app: edge-service
@@ -31,11 +36,11 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/path: /actuator/prometheus
         prometheus.io/port: "9000"
-    spec:     
+    spec:
       containers:
         - name: edge-service-container
           image: ghcr.io/upen28/polar-bookshop/edge-service:latest
-          imagePullPolicy: Always 
+          imagePullPolicy: Always
           ports:
             - containerPort: 9000
           livenessProbe:
@@ -49,14 +54,14 @@ spec:
               path: /actuator/health/readiness
               port: 9000
             initialDelaySeconds: 15
-            periodSeconds: 30 
+            periodSeconds: 30
           volumeMounts:
-          - name: edge-configmap-volume
-            mountPath: /workspace/config   
+            - name: edge-configmap-volume
+              mountPath: /workspace/config
       volumes:
-      - name: edge-configmap-volume
-        configMap:
-            name: edge-configmap         
+        - name: edge-configmap-volume
+          configMap:
+            name: edge-configmap
 ---
 apiVersion: v1
 kind: Service
@@ -86,4 +91,3 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 9000
-
