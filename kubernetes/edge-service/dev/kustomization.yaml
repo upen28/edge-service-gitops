@@ -41,7 +41,7 @@ patches:
     metadata:
      name: edge-service-rollout
     spec:
-      replicas: 3
+      replicas: 1
 
 images:
 - name: ghcr.io/upen28/polar-bookshop/edge-service
