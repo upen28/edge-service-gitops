@@ -11,8 +11,6 @@ resources:
 - api-gateway-ingress.yaml
 - edge-service-rollout.yaml
 
-namespace: polarbook-development
-
 patches:
 - patch: |-
       apiVersion: argoproj.io/v1alpha1
@@ -32,7 +30,7 @@ patches:
                   - name: OTEL_SERVICE_NAME
                     value: edge-service           
                   - name: OTEL_EXPORTER_OTLP_ENDPOINT
-                    value: http://tempo.polarbook-monitoring.svc.cluster.local:4318
+                    value: http://tempo.polarbookshop-development-monitoring.svc.cluster.local:4318
                   - name: OTEL_METRICS_EXPORTER
                     value: none
 - patch: |-
