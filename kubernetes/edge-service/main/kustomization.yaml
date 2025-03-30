@@ -11,8 +11,6 @@ resources:
 - api-gateway-ingress.yaml
 - edge-service-rollout.yaml
 
-namespace: polarbookshop-production
-
 patches:
 - patch: |-
       apiVersion: argoproj.io/v1alpha1
